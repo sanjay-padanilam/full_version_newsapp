@@ -38,20 +38,15 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               children: [
                 SizedBox(
-                  height: 200,
-                  width: 300,
+                  height: 400,
                   child: ListView.separated(
-                      itemBuilder: (context, index) => Card(
-                            margin: EdgeInsets.all(10.0),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                            elevation: 5.0,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) => Container(
+                            width: 250,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(15.0),
                               child: Stack(
                                 children: [
-                                  // Background image from network
                                   Positioned.fill(
                                     child: Image.network(
                                       homeproviderobj
@@ -60,23 +55,29 @@ class _HomeScreenState extends State<HomeScreen> {
                                       fit: BoxFit.cover,
                                     ),
                                   ),
-                                  // Title container at the bottom
                                   Positioned(
-                                    bottom: 0,
+                                    bottom: 20,
                                     left: 0,
                                     right: 0,
-                                    child: Container(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 10.0, horizontal: 15.0),
-                                      color: Colors.black.withOpacity(0.6),
-                                      child: Text(
-                                        "",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        height: 150,
+                                        width: 100,
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 10.0, horizontal: 15.0),
+                                        color: Colors.black.withOpacity(0.6),
+                                        child: Text(
+                                          homeproviderobj
+                                              .topheadlines[index].title
+                                              .toString(),
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          textAlign: TextAlign.center,
                                         ),
-                                        textAlign: TextAlign.center,
                                       ),
                                     ),
                                   ),

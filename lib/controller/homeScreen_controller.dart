@@ -42,5 +42,6 @@ class HomescreenController with ChangeNotifier {
     } catch (e) {
       log(e.toString());
     }
+    notifyListeners();
   }
 }
