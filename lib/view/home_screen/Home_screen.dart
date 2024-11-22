@@ -12,11 +12,33 @@ class HomeScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            DefaultTabController(
+                length: 5,
+                child: TabBar(
+                  tabs: List.generate(
+                    5,
+                    (index) => Container(
+                      height: 50,
+                      width: 50,
+                      color: Colors.yellow,
+                    ),
+                  ),
+                )),
+
+            headding_Section(),
             topsontainer_section(), // Fixed top section
             second_containersection(),
           ],
         ),
       ),
+    );
+  }
+
+  Container headding_Section() {
+    return Container(
+      height: 100,
+      width: double.infinity,
+      color: Colors.blue,
     );
   }
 
@@ -40,7 +62,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // Top section container
   Container topsontainer_section() {
     return Container(
       height: 350, // Adjust height based on your needs
