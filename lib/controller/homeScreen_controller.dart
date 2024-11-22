@@ -10,6 +10,16 @@ class HomescreenController with ChangeNotifier {
 
   List<Article> topheadlines = [];
 
+  static List<String> categoryList = [
+    "business",
+    "entertainment",
+    "general",
+    "health",
+    "science",
+    "sports",
+    "technology"
+  ];
+
   Future<void> getarticle() async {
     notifyListeners();
     final url = Uri.parse(
