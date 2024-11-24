@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:full_version_newsapp/controller/catagodyscreen_controller.dart';
 import 'package:full_version_newsapp/controller/homeScreen_controller.dart';
-import 'package:full_version_newsapp/view/home_screen/Home_screen.dart';
+
+import 'package:full_version_newsapp/view/splash_screen/splash_Screen.dart';
 
 import 'package:provider/provider.dart';
 
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
-        home: HomeScreen(),
+        home: SplashScreen(),
       ),
     );
   }

@@ -9,6 +9,7 @@ class CatagoryscreenController with ChangeNotifier {
   bool isloading = false;
 
   static List<String> categoryList = [
+    "everything",
     "business",
     "entertainment",
     "general",
@@ -17,7 +18,7 @@ class CatagoryscreenController with ChangeNotifier {
     "sports",
     "technology"
   ];
-  static String selectedcatagory = "";
+  static String selectedcatagory = "everything";
 
   Future<void> gettopHeadline() async {
     isloading = true;

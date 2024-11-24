@@ -10,22 +10,30 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   @override
-  void initState() async {
+  void initState() {
+    super.initState();
+    // Start a delayed transition to the HomeScreen
     Future.delayed(Duration(seconds: 3), () {
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(
-          builder: (context) => HomeScreen(),
-        ),
+        MaterialPageRoute(builder: (context) => HomeScreen()),
         (route) => false,
       );
     });
-
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      backgroundColor: Colors.lightBlue,
+      body: Center(
+        child: Image.network(
+          "https://img.freepik.com/free-psd/3d-icon-social-media-app_23-2150049601.jpg?semt=ais_hybrid",
+          width: 200,
+          height: 200,
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
   }
 }

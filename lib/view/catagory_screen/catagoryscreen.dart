@@ -72,7 +72,7 @@ class _CatagoryscreenState extends State<Catagoryscreen> {
               child: Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 25),
                     child: Container(
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
@@ -142,10 +142,14 @@ class _CatagoryscreenState extends State<Catagoryscreen> {
               },
               child: Container(
                 decoration: BoxDecoration(
-                    color: Colors.red, borderRadius: BorderRadius.circular(10)),
+                    color: Colors.blueAccent,
+                    borderRadius: BorderRadius.circular(10)),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(CatagoryscreenController.categoryList[index]),
+                  child: Text(
+                    CatagoryscreenController.categoryList[index],
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
                 ),
               ),
             ),

@@ -28,7 +28,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("HomeScreen"),
+          title: Text(
+            "NEWS..",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
           leading: IconButton(
               onPressed: () {
                 Navigator.push(
@@ -47,7 +50,17 @@ class _HomeScreenState extends State<HomeScreen> {
               : SingleChildScrollView(
                   child: Column(
                     children: [
+                      Text(
+                        "Top Headlines..",
+                        style: TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.bold),
+                      ),
                       topsontainer_section(providerobj),
+                      Text(
+                        "All News..",
+                        style: TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.bold),
+                      ),
                       second_containersection(providerobj),
                     ],
                   ),
