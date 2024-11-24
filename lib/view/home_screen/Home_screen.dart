@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:full_version_newsapp/controller/homeScreen_controller.dart';
 import 'package:full_version_newsapp/view/catagory_screen/catagoryscreen.dart';
+import 'package:full_version_newsapp/view/content_Screen/content_screen.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,8 +16,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback(
-      (timeStamp) {
-        context.read<HomescreenController>().gettopHeadline();
+      (timeStamp) async {
+        await context.read<HomescreenController>().gettopHeadline();
+        await context.read<HomescreenController>().getarticle();
       },
     );
     super.initState();
@@ -37,54 +40,104 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: Icon(Icons.apps)),
         ),
         body: Consumer<HomescreenController>(
-          builder: (context, providerobj, child) => SingleChildScrollView(
-            child: Column(
-              children: [
-                headding_Section(providerobj),
-                topsontainer_section(providerobj),
-                tabbar_section(providerobj),
-                second_containersection(providerobj),
-              ],
-            ),
-          ),
+          builder: (context, providerobj, child) => providerobj.isloading
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      topsontainer_section(providerobj),
+                      second_containersection(providerobj),
+                    ],
+                  ),
+                ),
         ));
-  }
-
-  DefaultTabController tabbar_section(HomescreenController providerobj) {
-    return DefaultTabController(
-        length: 5,
-        child: TabBar(
-          tabs: List.generate(
-            5,
-            (index) => Container(
-              height: 50,
-              width: 50,
-              color: Colors.yellow,
-            ),
-          ),
-        ));
-  }
-
-  Container headding_Section(HomescreenController providerobj) {
-    return Container(
-      height: 100,
-      width: double.infinity,
-      color: Colors.blue,
-    );
   }
 
   Widget second_containersection(HomescreenController providerobj) {
     return SingleChildScrollView(
       child: Column(
         children: List.generate(
-          20, // Adjust the number of items as needed
+          providerobj
+              .everythinglist.length, // Adjust the number of items as needed
           (index) => Padding(
             padding: const EdgeInsets.all(8.0),
-            child: ListTile(
-              tileColor: Colors.green,
-              title: Text(
-                'Name $index',
-                style: TextStyle(color: Colors.white),
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ContentScreen(
+                          title: providerobj.everythinglist[index].title
+                              .toString(),
+                          content: providerobj.everythinglist[index].content
+                              .toString(),
+                          imageUrl: providerobj.everythinglist[index].urlToImage
+                              .toString()),
+                    ));
+              },
+              child: Container(
+                color: Colors.red,
+                height: 150,
+                width: double.infinity,
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.network(
+                            providerobj.everythinglist[index].urlToImage
+                                .toString(),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        height: 100,
+                        width: 100,
+                      ),
+                    ),
+                    Expanded(
+                        child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            providerobj.everythinglist[index].title.toString(),
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  providerobj.everythinglist[index].source!.name
+                                      .toString(),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.blue),
+                                ),
+                              ),
+                              Text(
+                                providerobj.everythinglist[index].publishedAt !=
+                                        null
+                                    ? DateFormat('yyyy-MM-dd hh:mm a').format(
+                                        DateTime.parse(providerobj
+                                            .everythinglist[index].publishedAt
+                                            .toString()),
+                                      )
+                                    : 'Unknown Date',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ))
+                  ],
+                ),
               ),
             ),
           ),
@@ -104,17 +157,32 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.all(8.0),
           child: Stack(
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                width: 250,
-                height: 400,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(25),
-                  child: Image.network(
-                      fit: BoxFit.fitHeight,
-                      providerobj.topheadlines[index].urlToImage.toString()),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ContentScreen(
+                            title: providerobj.topheadlines[index].title
+                                .toString(),
+                            content: providerobj.topheadlines[index].content
+                                .toString(),
+                            imageUrl: providerobj.topheadlines[index].urlToImage
+                                .toString()),
+                      ));
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  width: 250,
+                  height: 400,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(25),
+                    child: Image.network(
+                        fit: BoxFit.fitHeight,
+                        providerobj.topheadlines[index].urlToImage.toString()),
+                  ),
                 ),
               ),
               Positioned(
@@ -135,14 +203,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: TextStyle(fontWeight: FontWeight.bold),
                             providerobj.topheadlines[index].title.toString()),
                       ),
-                      // Row(
-                      //   children: [
-                      //     Text(
-                      //       providerobj.topheadlines[index].source!.name
-                      //           .toString(),
-                      //     )
-                      //   ],
-                      // ),
                       Spacer(),
                       Text(
                         providerobj.topheadlines[index].source!.id.toString(),

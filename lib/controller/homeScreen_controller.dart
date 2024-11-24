@@ -9,6 +9,7 @@ class HomescreenController with ChangeNotifier {
   List<Article> everythinglist = [];
 
   List<Article> topheadlines = [];
+  bool isloading = false;
 
   static List<String> categoryList = [
     "business",
@@ -21,6 +22,7 @@ class HomescreenController with ChangeNotifier {
   ];
 
   Future<void> getarticle() async {
+    isloading = true;
     notifyListeners();
     final url = Uri.parse(
         "https://newsapi.org/v2/everything?q=bitcoin&apiKey=41f5562ab4a641069301792a794fa8a9");
@@ -35,9 +37,12 @@ class HomescreenController with ChangeNotifier {
     } catch (e) {
       print(e);
     }
+    isloading = false;
   }
 
   Future<void> gettopHeadline() async {
+    isloading = true;
+    notifyListeners();
     final url = Uri.parse(
         "https://newsapi.org/v2/top-headlines?country=us&apiKey=41f5562ab4a641069301792a794fa8a9");
     try {
@@ -53,5 +58,6 @@ class HomescreenController with ChangeNotifier {
       log(e.toString());
     }
     notifyListeners();
+    isloading = false;
   }
 }
